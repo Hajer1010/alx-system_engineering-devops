@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Instaling Nginx
 
-echo -e " Updating and  installing Nginx and starting it...\n"
-sudo apt-get -y  update
-sudo apt-get -y  install nginx
+echo -e " Updating and installing Nginx.\n"
+sudo apt-get update -y -qq && \
+sudo apt-get install nginx -y
 sudo service nginx start
 
 # By default FireWall blocks the incoming traffic over HTTP
 # on Nginx for security reasons, so we need to allowing this
 echo -e "\nAllowing incoming traffic through HTTP...\n"
-sudo ufw allow "Nginx HTTP"
+sudo ufw allow 'Nginx HTTP'
 
 echo -e "\n\t>>> Backing up files & Setting up configurations...\n"
 
@@ -19,7 +19,7 @@ sudo chmod -R 755 /var/www
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup
 
 # Task 1: Hello World
-echo -e "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
 sudo service nginx restart
 
